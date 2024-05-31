@@ -62,6 +62,37 @@ table tbody tr:hover {
   text-decoration: none;
 }
 
+.btn-edit {
+  background-color: #ffd900;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-delete {
+  background-color: #f34704;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.btn-view {
+  background-color: #69d377;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  cursor: pointer;
+  text-decoration: none;
+}
+
 .btn-primary:hover {
   background-color: #0056b3;
+}
+
+.form-inline {
+  display: inline-block;
 }

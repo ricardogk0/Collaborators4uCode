@@ -1,5 +1,6 @@
 using CollaboratorsCRUD.Data;
 using CollaboratorsCRUD.Models;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
@@ -33,14 +34,37 @@ namespace CollaboratorsCRUD.Pages
             }
         }
 
-        public IActionResult OnPostCreate([FromBody] Collaborator collaborator)
+        public IActionResult OnPost()
         {
             if (!ModelState.IsValid)
             {
                 return Page();
             }
 
+            Collaborator collaborator = new Collaborator
+            {
+                Name = Collaborator.Name,
+                Email = Collaborator.Email,
+                Phone = Collaborator.Phone,
+                IdRole = Collaborator.IdRole
+            };
+
             _context.Collaborator.Add(collaborator);
+            _context.SaveChanges();
+
+            return RedirectToPage("Collaborator");
+        }
+
+        public IActionResult OnPostDelete(int id)
+        {
+            var collaborator = _context.Collaborator.Find(id);
+
+            if (collaborator == null)
+            {
+                return NotFound();
+            }
+
+            _context.Collaborator.Remove(collaborator);
             _context.SaveChanges();
 
             return RedirectToPage("Collaborator");

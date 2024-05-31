@@ -18,6 +18,7 @@
     <table class="table">
         <thead>
             <tr>
+                <th></th>
                 <th>
                     @Html.DisplayNameFor(model => model.Collaborators[0].Name)
                 </th>
@@ -30,13 +31,17 @@
                 <th>
                     @Html.DisplayNameFor(model => model.Collaborators[0].Role)
                 </th>
-                <th></th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model.Collaborators)
             {
                 <tr>
+                    <td style="width: 280px">
+                        <a asp-page="./Collaborator" asp-route-id="@item.Id">Edit</a>
+                        <a asp-page="./Collaborator" class="btn-delete" asp-route-id="@item.Id" onclick="deleteItem('@item.Id')">Delete</a>
+                        <a asp-page="./Collaborator" class="btn-view" asp-route-id="@item.Id">View</a>
+                    </td>
                     <td>
                         @Html.DisplayFor(modelItem => item.Name)
                     </td>
@@ -49,17 +54,14 @@
                     <td>
                         @Html.DisplayFor(modelItem => item.Role.Name)
                     </td>
-                    <td>
-                        <a asp-page="./Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-page="./Delete" asp-route-id="@item.Id">Delete</a>
-                    </td>
                 </tr>
             }
         </tbody>
     </table>
 </div>
 
-<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel" aria-hidden="true">
+<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+    aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -69,23 +71,26 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="createForm">
+                <form asp-page="/Collaborator" method="post" data-ajax="true" data-ajax-method="post"
+                    data-ajax-sucess="Sucess" data-ajax-failure="Failed">
                     <div class="form-group">
-                        <label for="name">Name</label>
-                        <input type="text" class="form-control" id="name" placeholder="Enter name" required />
+                        <label asp-for="Collaborator.Name"></label>
+                        <input asp-for="Collaborator.Name" class="form-control" required />
+                        <span asp-validation-for="Collaborator.Name" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="email">Email</label>
-                        <input type="email" class="form-control" id="email" placeholder="Enter email" required />
-                        <span id="emailError" class="text-danger" style="display:none;">Invalid email address</span>
+                        <label asp-for="Collaborator.Email"></label>
+                        <input asp-for="Collaborator.Email" class="form-control" required />
+                        <span asp-validation-for="Collaborator.Email" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="phone">Phone</label>
-                        <input type="text" class="form-control" id="phone" placeholder="Enter phone number" required />
+                        <label asp-for="Collaborator.Phone"></label>
+                        <input asp-for="Collaborator.Phone" class="form-control" required />
+                        <span asp-validation-for="Collaborator.Phone" class="text-danger"></span>
                     </div>
                     <div class="form-group">
-                        <label for="role">Role</label>
-                        <select class="form-control" id="role" required>
+                        <label asp-for="Collaborator.IdRole">Role</label>
+                        <select class="form-control" asp-for="Collaborator.IdRole" required>
                             <option value="">Select role</option>
                             @foreach (var role in Model.Roles)
                             {
@@ -93,12 +98,54 @@
                             }
                         </select>
                     </div>
+                    <button type="submit" class="btn btn-primary">Save</button>
                 </form>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary" onclick="createCollaborator()">Save</button>
             </div>
         </div>
     </div>
 </div>
+
+@*<div class="modal fade" id="createModal" tabindex="-1" role="dialog" aria-labelledby="createModalLabel"
+aria-hidden="true">
+<div class="modal-dialog" role="document">
+<div class="modal-content">
+<div class="modal-header">
+<h5 class="modal-title" id="createModalLabel">New Collaborator</h5>
+<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+<span aria-hidden="true">&times;</span>
+</button>
+</div>
+<div class="modal-body">
+<form id="createForm">
+<div class="form-group">
+<label for="name">Name</label>
+<input type="text" class="form-control" id="name" placeholder="Enter name" required />
+</div>
+<div class="form-group">
+<label for="email">Email</label>
+<input type="email" class="form-control" id="email" placeholder="Enter email" required />
+<span id="emailError" class="text-danger" style="display:none;">Invalid email address</span>
+</div>
+<div class="form-group">
+<label for="phone">Phone</label>
+<input type="text" class="form-control" id="phone" placeholder="Enter phone number" required />
+</div>
+<div class="form-group">
+<label for="role">Role</label>
+<select class="form-control" id="role" required>
+<option value="">Select role</option>
+@foreach (var role in Model.Roles)
+{
+<option value="@role.Id">@role.Name</option>
+}
+</select>
+</div>
+</form>
+</div>
+<div class="modal-footer">
+<button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+<button type="submit" class="btn btn-primary" onclick="createCollaborator()">Save</button>
+</div>
+</div>
+</div>
+</div>*@
