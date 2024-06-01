@@ -4,23 +4,23 @@
 
 function deleteItem(id) {
     if (confirm('Are you sure you want to delete this item?')) {
-        debugger;
         fetch('Collaborator?handler=Delete&id=' + id, {
             method: 'POST',
             headers: {
+                'Content-Type': 'application/json',
                 'RequestVerificationToken': document.getElementsByName('__RequestVerificationToken')[0].value
             }
         })
         .then(response => {
+            console.log('Response status:', response.status);
             if (response.ok) {
                 alert('Item deleted successfully.');
-                window.location.reload();
+                setTimeout(() => { window.location.reload(); }, 500);
             } else {
                 alert('Failed to delete item.');
             }
         });
     }
-    window.location.reload();
 }
 
 function createCollaborator(){
